@@ -16,9 +16,12 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectProject }) 
             <button onClick={() => onSelectProject(project.name)}>
               <strong>{project.name}</strong>
               <div>Stars: {project.stargazers_count}</div>
+              <div>Description: {project.description}</div>
               <div>Forks: {project.forks_count}</div>
               <div>Open Issues: {project.open_issues_count}</div>
               <div>Watchers: {project.watchers_count}</div>
+              <div>Updated At: {new Date(project.updated_at).toDateString()}</div>
+              <div>Created At: {new Date(project.created_at).toDateString()}</div>
             </button>
           </li>
         ))}
