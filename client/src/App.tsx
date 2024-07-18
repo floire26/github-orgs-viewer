@@ -53,6 +53,7 @@ function App() {
       const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${project}/commits`);
       setCommits(response.data);
       setSelectedProject(project);
+      document.getElementById('my_modal_2').showModal()
     } catch (error) {
       console.error("Error fetching commits: ", error);
     }
@@ -94,8 +95,8 @@ function App() {
   }, [sortType])
 
   return (
-    <div className='App flex flex-col justify-items-center text-center'>
-      <h1 className='m-2'>GitHub Projects Viewer</h1>
+    <div className='App text-slate-400 flex flex-col place-items-center text-center'>
+      <h1 className='m-2 text-lime-100 font-bold'>GitHub Projects Viewer</h1>
       <div>
         <input
           type="text"
@@ -107,10 +108,11 @@ function App() {
         <button onClick={fetchProjects} className='bg-black/20'>Fetch Projects</button>
       </div>
       
-      <div>
-        <h2>Sort By:</h2>
+      <h2 className='m-2 text-xl font-semibold'>Sort By:</h2>
+
+      <div className='flex place-items-center align-self-center'>
         {
-          metrics.map(metric => <Button value={metric} onClick={changeSortOption} />)
+          metrics.map(metric => <Button value={metric} onClick={changeSortOption} sortType={sortType} selectedButton={selectedMetric} />)
         }
       </div>
 
