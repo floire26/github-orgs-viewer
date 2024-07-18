@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import axios from 'axios';
+import ProjectList from './ProjectList';
+import CommitsList from './CommitsList';
+import { Project } from './types/Project';
+import { Commit } from './types/Commit';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [organization, setOrganization] = useState<string>('');
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [commits, setCommits] = useState<Commit[]>([]);
+  const [metrics, setMetrics] = useState<string[]>([
+    "Name",
+    "Stars",
+    "Forks",
+    "Open Issues",
+    "Watchers",
+    "Updated At",
+    "Created At"
+  ])
+
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get<Project[]>(`https://api.github.com/orgs/${organization}/repos`);
+      setProjects(response.data.sort((a, b) => b.stargazers_count - a.stargazers_count));
+    } catch (error) {
+      console.error("Error fetching projects: ", error);
+    }
+  };
+
+  const fetchCommits = async (project: string) => {
+    try {
+      const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${project}/commits`);
+      setCommits(response.data);
+      setSelectedProject(project);
+    } catch (error) {
+      console.error("Error fetching commits: ", error);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <h1>GitHub Projects</h1>
+      <input
+        type="text"
+        value={organization}
+        onChange={(e) => setOrganization(e.target.value)}
+        placeholder="Enter GitHub organization"
+      />
+      <button onClick={fetchProjects}>Fetch Projects</button>
+      <h2>Sort By:</h2>
+      {
+        metrics.map(metric => <button>{metric}</button>)
+      }
+      {projects.length > 0 && (
+        <ProjectList projects={projects} onSelectProject={fetchCommits} />
+      )}
+      {selectedProject && (
+        <CommitsList commits={commits} project={selectedProject} />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
