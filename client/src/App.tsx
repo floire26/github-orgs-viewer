@@ -94,19 +94,26 @@ function App() {
   }, [sortType])
 
   return (
-    <div className='App'>
-      <h1>GitHub Projects</h1>
-      <input
-        type="text"
-        value={organization}
-        onChange={(e) => setOrganization(e.target.value)}
-        placeholder="Enter GitHub organization"
-      />
-      <button onClick={fetchProjects}>Fetch Projects</button>
-      <h2>Sort By:</h2>
-      {
-        metrics.map(metric => <Button value={metric} onClick={changeSortOption} />)
-      }
+    <div className='App flex flex-col justify-items-center text-center'>
+      <h1 className='m-2'>GitHub Projects Viewer</h1>
+      <div>
+        <input
+          type="text"
+          value={organization}
+          onChange={(e) => setOrganization(e.target.value)}
+          placeholder="Enter GitHub organization"
+          className='m-2 p-2 bg-slate-400/10 rounded-lg'
+        />
+        <button onClick={fetchProjects} className='bg-black/20'>Fetch Projects</button>
+      </div>
+      
+      <div>
+        <h2>Sort By:</h2>
+        {
+          metrics.map(metric => <Button value={metric} onClick={changeSortOption} />)
+        }
+      </div>
+
       {projects.length > 0 && (
         <ProjectList projects={projects} onSelectProject={fetchCommits} />
       )}
