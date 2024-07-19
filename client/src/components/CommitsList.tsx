@@ -1,6 +1,7 @@
 import React from 'react';
 import { Commit } from '../types/Commit';
 import ProgressBar from '../props/ProgressBar';
+import { formatDate } from '../helpers/dateFormatter';
 
 interface CommitsListProps {
   commits: Commit[];
@@ -35,7 +36,7 @@ const CommitsList: React.FC<CommitsListProps> = ({ commits, project }) => {
                       </a>
                     </div>
                     <div className={"mb-10 md:text-end timeline-box flex flex-col " + (i % 2 === 0 ? "timeline-start" : "timeline-end")}>
-                      <time className="font-mono italic">{new Date(commit.commit.author.date).toDateString()}</time>
+                      <time className="font-mono italic">{formatDate(new Date(commit.commit.author.date))}</time>
                       <div className="text-lg font-black"></div>
                       <a href={commit.html_url} target="_blank" rel="noopener noreferrer">
                           {

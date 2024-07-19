@@ -1,5 +1,6 @@
 import React from 'react';
 import { Project } from '../types/Project';
+import { formatDate } from '../helpers/dateFormatter';
 
 interface ProjectListProps {
   projects: Project[];
@@ -38,8 +39,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectProject }) 
                     </div>
                   </div>
                   <div className="justify-self-end ring-1 m-2 p-2 rounded-lg text-sky-300 ring-slate-400 w-full">
-                    <div>Updated At: {new Date(project.updated_at).toDateString()}</div>
-                    <div>Created At: {new Date(project.created_at).toDateString()}</div>
+                    <div>Updated At: {formatDate(new Date(project.updated_at))}</div>
+                    <div>Created At: {formatDate(new Date(project.created_at))}</div>
                   </div>
             </button>
           </div>
