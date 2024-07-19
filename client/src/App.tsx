@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProjectList from './components/ProjectList';
 import CommitsList from './components/CommitsList';
 import { Project } from './types/Project';
 import { Commit } from './types/Commit';
-import Button from './props/Button';
 import SortSection from './components/SortSection';
+import { sortTypeFunc, sortTypeStringFunc } from './helpers/sortFuncs';
+import showErrorAlert from './helpers/alerts';
 
 function App() {
   const [organization, setOrganization] = useState<string>('');
@@ -26,17 +27,14 @@ function App() {
     setSelectedMetric(value);
     setSortType("desc2");
   }
-
-  const sortTypeFunc = (a: any, b: any, sortType: string) => sortType === "asc" ? b - a : a - b;
-  const sortTypeStringFunc = (a: string, b: string, sortType: string) => sortType === "asc" ? b.localeCompare(a) : a.localeCompare(b);
-
+  
   const fetchProjects = async () => {
     try {
       const response = await axios.get<Project[]>(`https://api.github.com/orgs/${organization}/repos`);
       setProjects(response.data);
       changeSortOption("Updated At");
     } catch (error) {
-      console.error("Error fetching projects: ", error);
+      showErrorAlert(error.response.status, organization, "organization");
     }
   };
 
@@ -48,7 +46,8 @@ function App() {
       const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${project}/commits`);
       setCommits(response.data);
     } catch (error) {
-      console.error("Error fetching commits: ", error);
+      if (selectedProject !== null) showErrorAlert(error.response.status,selectedProject, "commits");
+      document.getElementById('commit_modal').close();
     }
   };
 
