@@ -6,7 +6,7 @@ Project to show github organisations (in development)
 - _Frontend Toolings_: Vite
 - _Frontend Libraries_: React
 - _CSS Frameworks_: Tailwind
-- _CSS Library_: DaisyUI, SweetAlert
+- _CSS Libraries_: DaisyUI, SweetAlert
 - _3rd Party APIs_: GitHub API
 - _Testing_ _Frameworks_: Vitest, React Testing Library
 
