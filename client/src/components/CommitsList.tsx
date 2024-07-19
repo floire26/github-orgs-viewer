@@ -6,14 +6,15 @@ import { formatDate } from '../helpers/dateFormatter';
 interface CommitsListProps {
   commits: Commit[];
   project: string;
+  projectUrl: string;
 }
 
-const CommitsList: React.FC<CommitsListProps> = ({ commits, project }) => {
+const CommitsList: React.FC<CommitsListProps> = ({ commits, project, projectUrl }) => {
   return (
     <div>
         <dialog id="commit_modal" className="modal">
           <div className="modal-box max-w-full bg-gradient-to-bl from-slate-600 to-slate-900">
-            <h2 className='m-2 text-xl font-bold'>Commits for <a href="">{project}</a></h2>
+            <h2 className='m-2 text-xl font-bold'>Commits for <a href={projectUrl}>{project}</a></h2>
             {
               commits.length === 0 ? 
               <ProgressBar />

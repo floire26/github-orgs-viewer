@@ -4,7 +4,7 @@ import { formatDate } from '../helpers/dateFormatter';
 
 interface ProjectListProps {
   projects: Project[];
-  onSelectProject: (project: string) => void;
+  onSelectProject: (index: number) => void;
 
 }
 
@@ -14,7 +14,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectProject }) 
       <h2 className='m-4 text-4xl font-semibold'>Projects</h2>
       <div className="grid grid-cols-3 gap-4">
         {projects.map((project, i) => (
-          <div onClick={() => onSelectProject(project.name)} className="card bg-transparent text-primary-content" data-testid={"project-card-" + (i + 1)}>
+          <div onClick={() => onSelectProject(i)} className="card bg-transparent text-primary-content" data-testid={"project-card-" + (i + 1)}>
             <button className="card-body flex place-items-center bg-black/30">
               <h2 className="card-title text-slate-400">{project.name}</h2>
                   <div className='flex place-items-center h-1/3 rounded-lg ring-1 m-2 p-2 text-center text-lime-100 ring-slate-400 w-full'>

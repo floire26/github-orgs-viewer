@@ -12,6 +12,7 @@ function App() {
   const [organization, setOrganization] = useState<string>('');
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [selectedProjectUrl, setSelectedProjectUrl] = useState<string>("");
   const [commits, setCommits] = useState<Commit[]>([]);
   const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
   const [sortType, setSortType] = useState<string>("desc2");
@@ -38,12 +39,14 @@ function App() {
     }
   };
 
-  const fetchCommits = async (project: string) => {
+  const fetchCommits = async (index: number) => {
     try {
-      setSelectedProject(project);
+      const selected = projects[index];
+      setSelectedProject(selected.name);
+      setSelectedProjectUrl(selected.html_url);
       document.getElementById('commit_modal').showModal();
       setCommits([]);
-      const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${project}/commits`);
+      const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${selectedProject}/commits`);
       setCommits(response.data);
     } catch (error) {
       if (selectedProject !== null) showErrorAlert(error.response.status,selectedProject, "commits");
@@ -112,7 +115,7 @@ function App() {
 
       {
         selectedProject && (
-          <CommitsList commits={commits} project={selectedProject} />
+          <CommitsList commits={commits} project={selectedProject} projectUrl={selectedProjectUrl}/>
         )
       }
     </div>
