@@ -2,7 +2,16 @@
 
 Project to show github organisations (in development)
 
-To run the app:
+## Tech Stack
+- Frontend Toolings: Vite
+- Frontend Libraries: React
+- CSS Frameworks: Tailwind
+- CSS Library: DaisyUI, SweetAlert
+- 3rd Party APIs: GitHub API
+- Testing Frameworks: Vitest, React Testing Library
+
+## Guides
+**To run the app:**
 
 1. Make sure that you have Node.js v.18+ installed
 2. Make sure that you have npm installed
@@ -14,8 +23,8 @@ To run the app:
 
 4. The web app is served on [this address](http://localhost:5173)
 
-To run the test cases:
-
+**To run the test cases:
+**
 1. Make sure that you have Node.js v.18+ installed
 2. Make sure that you have npm installed
 3. Run this code from the root directory
