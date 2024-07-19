@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import ProjectList from './components/ProjectList';
 import CommitsList from './components/CommitsList';
@@ -15,7 +15,8 @@ function App() {
   const [selectedProjectUrl, setSelectedProjectUrl] = useState<string>("");
   const [commits, setCommits] = useState<Commit[]>([]);
   const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
-  const [sortType, setSortType] = useState<string>("desc2");
+  const [sortType, setSortType] = useState<string>("desc1");
+  const inputRef = useRef(null);
 
   const changeSortOption = (value: string) => {
     if (projects.length === 0) return;
@@ -26,30 +27,32 @@ function App() {
     } 
 
     setSelectedMetric(value);
-    setSortType("desc2");
+    setSortType("desc1");
   }
   
   const fetchProjects = async () => {
     try {
-      const response = await axios.get<Project[]>(`https://api.github.com/orgs/${organization}/repos`);
+      if (inputRef === null) return;
+      const response = await axios.get<Project[]>(`https://api.github.com/orgs/${inputRef.current.value}/repos`);
+      setOrganization(inputRef.current.value);
       setProjects(response.data);
       changeSortOption("Updated At");
     } catch (error) {
-      showErrorAlert(error.response.status, organization, "organization");
+      showErrorAlert(error.response.status, inputRef.current.value, "organization");
     }
   };
 
-  const fetchCommits = async (index: number) => {
+  const fetchCommits = async (index: number, project: string) => {
     try {
       const selected = projects[index];
-      setSelectedProject(selected.name);
+      setSelectedProject(project);
       setSelectedProjectUrl(selected.html_url);
       document.getElementById('commit_modal').showModal();
       setCommits([]);
-      const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${selectedProject}/commits`);
+      const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${project}/commits`);
       setCommits(response.data);
     } catch (error) {
-      if (selectedProject !== null) showErrorAlert(error.response.status,selectedProject, "commits");
+      if (selectedProject !== null) showErrorAlert(error.response.status, project, "commits");
       document.getElementById('commit_modal').close();
     }
   };
@@ -94,10 +97,9 @@ function App() {
         <input
           id="input-org"
           type="text"
-          value={organization}
-          onChange={(e) => setOrganization(e.target.value)}
           placeholder="Enter GitHub organization"
           className='m-2 p-2 bg-slate-400/10 rounded-lg'
+          ref={inputRef}
         />
         <button onClick={fetchProjects} className='bg-black/20'>Fetch Projects</button>
       </div>

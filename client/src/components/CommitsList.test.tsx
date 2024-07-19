@@ -7,14 +7,14 @@ import { Commit } from "../types/Commit";
 describe("Testing CommitsList", () => {
     it('Should be able to render the component', () => {
         const { container } = render(
-               <CommitsList project="" commits={[]}/>
+               <CommitsList project="" commits={[]} projectUrl=""/>
         );
         expect(container).toBeInTheDocument();
     })
 
     it('Should render the progress bar if commits are empty', () => {
         render(
-               <CommitsList project="" commits={[]}/>
+               <CommitsList project="" commits={[]} projectUrl=""/>
         );
 
         const progressBar = screen.getByTestId("progress-bar");
@@ -25,7 +25,7 @@ describe("Testing CommitsList", () => {
     it('Should display the commit name if the passed commit prop is not an empty string', () => {
         const testInput = "test"
         render(
-               <CommitsList project={testInput} commits={[]}/>
+               <CommitsList project={testInput} commits={[]} projectUrl=""/>
         );
 
         const commitTitle = screen.getByText(testInput);
@@ -35,7 +35,7 @@ describe("Testing CommitsList", () => {
     it('Should display the commit name if the passed commit prop is not an empty string', () => {
         const testInput = "test"
         render(
-               <CommitsList project={testInput} commits={[]}/>
+               <CommitsList project={testInput} commits={[]} projectUrl=""/>
         );
 
         const commitTitle = screen.getByText(testInput);
@@ -61,7 +61,7 @@ describe("Testing CommitsList", () => {
             html_url: "test"
         }]
         render(
-               <CommitsList project={testInput} commits={testCommits}/>
+               <CommitsList project={testInput} commits={testCommits} projectUrl=""/>
         );
 
         const commitCardId = screen.getByTestId("commit-card-1");
