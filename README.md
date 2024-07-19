@@ -2,24 +2,26 @@
 
 Project to show github organisations (in development)
 
-To run :
+To run the app:
 
 1. Make sure that you have Node.js v.18+ installed
-2. Run this code from the root
+2. Make sure that you have npm installed
+3. Run this code from the root directory
 
     ```bash
     cd client && npm i && npm run dev
     ```
 
-3. The web is served on [this address](http://localhost:5173)
+4. The web app is served on [this address](http://localhost:5173)
 
-To test:
+To run the test cases:
 
 1. Make sure that you have Node.js v.18+ installed
-2. Run this code from the root
+2. Make sure that you have npm installed
+3. Run this code from the root directory
 
     ```bash
-    npm i && npm run test
+    cd client && npm i && npm run test
     ```
 
-3. Check the output of the test in your CLI
+4. Check the output of the test in your CLI
