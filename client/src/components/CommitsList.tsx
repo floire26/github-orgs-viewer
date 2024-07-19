@@ -19,7 +19,7 @@ const CommitsList: React.FC<CommitsListProps> = ({ commits, project }) => {
               : <ul className="m-2 timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
                 {commits.map((commit, i) => (
                   <li>
-                    <div className="timeline-middle flex flex-col place-items-center">
+                    <div className="timeline-middle flex flex-col place-items-center" data-testid={"commit-card-" + (i + 1)}>
                       <img 
                         src={commit.author !== null ? commit.author.avatar_url : "./user.svg"}
                         height={75}

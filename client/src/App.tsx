@@ -89,6 +89,7 @@ function App() {
       <h1 className='m-2 text-lime-100 font-bold'>Github Organization Viewer</h1>
       <div className='m-2'>
         <input
+          id="input-org"
           type="text"
           value={organization}
           onChange={(e) => setOrganization(e.target.value)}
@@ -104,11 +105,16 @@ function App() {
         <SortSection sortType={sortType} selectedButton={selectedMetric} onClick={changeSortOption} />
       }
 
-      { projects.length > 0 &&
-        <ProjectList projects={projects} onSelectProject={fetchCommits} />}
-      {selectedProject && (
-        <CommitsList commits={commits} project={selectedProject} />
-      )}
+      { 
+        projects.length > 0 &&
+        <ProjectList projects={projects} onSelectProject={fetchCommits} />
+      }
+
+      {
+        selectedProject && (
+          <CommitsList commits={commits} project={selectedProject} />
+        )
+      }
     </div>
   );
 }
