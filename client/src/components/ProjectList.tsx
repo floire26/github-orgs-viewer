@@ -1,12 +1,13 @@
 import React from 'react';
-import { Project } from './types/Project';
+import { Project } from '../types/Project';
 
 interface ProjectListProps {
   projects: Project[];
   onSelectProject: (project: string) => void;
+
 }
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectProject }) => {
+const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectProject }) => {  
   return (
     <div className='mx-4 flex flex-col place-items-center'>
       <h2 className='m-4 text-4xl font-semibold'>Projects</h2>

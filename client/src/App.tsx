@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ProjectList from './ProjectList';
-import CommitsList from './CommitsList';
+import ProjectList from './components/ProjectList';
+import CommitsList from './components/CommitsList';
 import { Project } from './types/Project';
 import { Commit } from './types/Commit';
 import Button from './props/Button';
+import SortSection from './components/SortSection';
 
 function App() {
   const [organization, setOrganization] = useState<string>('');
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [commits, setCommits] = useState<Commit[]>([]);
-  const [metrics, setMetrics] = useState<string[]>([
-    "Name",
-    "Stars",
-    "Forks",
-    "Open Issues",
-    "Watchers",
-    "Updated At",
-    "Created At"
-  ])
   const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
   const [sortType, setSortType] = useState<string>("desc2");
 
@@ -50,17 +42,17 @@ function App() {
 
   const fetchCommits = async (project: string) => {
     try {
+      setSelectedProject(project);
+      document.getElementById('commit_modal').showModal();
+      setCommits([]);
       const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${project}/commits`);
       setCommits(response.data);
-      setSelectedProject(project);
-      document.getElementById('my_modal_2').showModal()
     } catch (error) {
       console.error("Error fetching commits: ", error);
     }
   };
 
   useEffect(() => {
-    // setTimeout(() => {
       let sortedProjects = [...projects];
       
       switch (selectedMetric) {
@@ -90,14 +82,13 @@ function App() {
       }
 
       setProjects(sortedProjects);
-    // } , 10000);
     
   }, [sortType])
 
   return (
     <div className='App text-slate-400 flex flex-col place-items-center text-center'>
-      <h1 className='m-2 text-lime-100 font-bold'>GitHub Projects Viewer</h1>
-      <div>
+      <h1 className='m-2 text-lime-100 font-bold'>Github Organization Viewer</h1>
+      <div className='m-2'>
         <input
           type="text"
           value={organization}
@@ -108,17 +99,14 @@ function App() {
         <button onClick={fetchProjects} className='bg-black/20'>Fetch Projects</button>
       </div>
       
-      <h2 className='m-2 text-xl font-semibold'>Sort By:</h2>
 
-      <div className='flex place-items-center align-self-center'>
-        {
-          metrics.map(metric => <Button value={metric} onClick={changeSortOption} sortType={sortType} selectedButton={selectedMetric} />)
-        }
-      </div>
+      {
+        projects.length > 0 &&
+        <SortSection sortType={sortType} selectedButton={selectedMetric} onClick={changeSortOption} />
+      }
 
-      {projects.length > 0 && (
-        <ProjectList projects={projects} onSelectProject={fetchCommits} />
-      )}
+      { projects.length > 0 &&
+        <ProjectList projects={projects} onSelectProject={fetchCommits} />}
       {selectedProject && (
         <CommitsList commits={commits} project={selectedProject} />
       )}
