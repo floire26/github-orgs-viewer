@@ -5,8 +5,8 @@ import { formatDate } from '../helpers/dateFormatter';
 interface ProjectListProps {
   projects: Project[];
   onSelectProject: (index: number, project: string) => void;
-
 }
+
 
 const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectProject }) => {  
   return (

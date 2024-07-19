@@ -18,8 +18,8 @@ function App() {
   const [sortType, setSortType] = useState<string>("desc1");
   const inputRef = useRef(null);
 
-  const changeSortOption = (value: string) => {
-    if (projects.length === 0) return;
+  const changeSortOption = (value: string | null) => {
+    if (projects.length === 0 || value === null) return;
 
     if (value === selectedMetric) {
       setSortType(sortType === "asc" ? "desc1" : "asc");    
@@ -36,7 +36,6 @@ function App() {
       const response = await axios.get<Project[]>(`https://api.github.com/orgs/${inputRef.current.value}/repos`);
       setOrganization(inputRef.current.value);
       setProjects(response.data);
-      changeSortOption("Updated At");
     } catch (error) {
       showErrorAlert(error.response.status, inputRef.current.value, "organization");
     }
@@ -51,6 +50,7 @@ function App() {
       setCommits([]);
       const response = await axios.get<Commit[]>(`https://api.github.com/repos/${organization}/${project}/commits`);
       setCommits(response.data);
+      changeSortOption(selectedMetric);
     } catch (error) {
       if (selectedProject !== null) showErrorAlert(error.response.status, project, "commits");
       document.getElementById('commit_modal').close();
