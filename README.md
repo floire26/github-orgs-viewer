@@ -3,12 +3,12 @@
 Project to show github organisations (in development)
 
 ## Tech Stack
-- Frontend Toolings: Vite
-- Frontend Libraries: React
-- CSS Frameworks: Tailwind
-- CSS Library: DaisyUI, SweetAlert
-- 3rd Party APIs: GitHub API
-- Testing Frameworks: Vitest, React Testing Library
+- _Frontend Toolings_: Vite
+- _Frontend Libraries_: React
+- _CSS Frameworks_: Tailwind
+- _CSS Library_: DaisyUI, SweetAlert
+- _3rd Party APIs_: GitHub API
+- _Testing_ Frameworks: Vitest, React Testing Library
 
 ## Guides
 **To run the app:**
