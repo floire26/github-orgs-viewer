@@ -8,7 +8,7 @@ Project to show github organisations (in development)
 - _CSS Frameworks_: Tailwind
 - _CSS Library_: DaisyUI, SweetAlert
 - _3rd Party APIs_: GitHub API
-- _Testing_ Frameworks: Vitest, React Testing Library
+- _Testing_ _Frameworks_: Vitest, React Testing Library
 
 ## Guides
 **To run the app:**
